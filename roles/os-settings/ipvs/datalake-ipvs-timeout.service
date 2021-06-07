@@ -1,0 +1,8 @@
+[Unit]
+Description=Increase IPVS timeout to 3600 seconds
+ 
+[Service]
+Type=oneshot
+StandardOutput=journal
+StandardError=journal
+ExecStart=/usr/sbin/ipvsadm --set 3600 120 300

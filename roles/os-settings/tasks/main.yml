@@ -1,0 +1,48 @@
+- name: Disk Mount; partition
+  parted:
+    device: /dev/vdb
+    label: gpt
+    part_type: primary
+    part_start: 0%
+    part_end: 100%
+    state: present
+    number: 1
+- name: Disk Mount; filesystem
+  filesystem:
+    dev: /dev/vdb1
+    fstype: ext4
+- name: Disk Mount; mount
+  mount:
+    src: /dev/vdb1
+    path: /data/disk
+    fstype: ext4
+    state: mounted
+- name: Install ipvsadm
+  yum:
+    name: ipvsadm
+    state: latest 
+- name: Ipvs Timeout; copy service
+  copy:
+    src: ipvs/datalake-ipvs-timeout.service
+    dest: /usr/lib/systemd/system/ne-ipvs-timeout.service
+- name: Ipvs Service; create symlink
+  ansible.builtin.file:
+    src: /usr/lib/systemd/system/ne-ipvs-timeout.service
+    dest: /etc/systemd/system/multi-user.target.wants/ne-ipvs-timeout.service
+    state: link
+- name: Ipvs Service; start
+  ansible.builtin.systemd:
+    name: ne-ipvs-timeout 
+    state: started
+    enabled: yes
+    masked: no 
+- name: Stdout; ipvs timeout
+  shell: ipvsadm -l --timeout
+  register: result
+- debug: var=result.stdout_lines
+- name: Tunning Sysctl; copy files   
+  copy:
+    src: ipvs/sysctl.d/
+    dest: /etc/sysctl.d/
+- name: Tunning Sysctl; apply runtime
+  shell: sysctl --system

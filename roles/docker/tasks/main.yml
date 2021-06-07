@@ -1,0 +1,23 @@
+- name: Yum update
+  yum:
+    name: "*"
+    state: latest
+- name: Install docker
+  yum:
+    name: docker
+    state: latest
+- name: Install docker-registry
+  yum:
+    name: docker-registry
+    state: latest
+- name: Enable service docker and ensure it is not masked
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: yes
+    masked: no
+- name: Stdout docker verion 
+  shell: "docker --version"
+  register: result
+
+- debug: var=result.stdout_lines

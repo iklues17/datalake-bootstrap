@@ -1,0 +1,33 @@
+- name: Yum update
+  yum:
+    name: "*"
+    state: latest
+- name: Install wget
+  yum:
+    name: wget
+    state: latest
+- name: Group Install devel tools
+  shell: "yum -y groupinstall 'Development Tools'"
+- name: Install gcc; devel package
+  yum:
+    name:
+      - openssl-devel
+      - bzip2-devel
+      - libffi-devel
+    state: latest
+- name: Download Python 3.8.9
+  shell: |
+    wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
+    tar xvf Python-3.8.9.tgz
+- name: Install Python 3.8.9
+  shell: |
+    cd Python-3.8*
+    ./configure --enable-optimizations
+    make altinstall
+- name: Check Python3 version
+  shell: |
+    python3 -V
+    python3 -m pip --version
+  register: result
+
+- debug: var=result.stdout_lines
