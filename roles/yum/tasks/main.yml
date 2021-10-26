@@ -1,0 +1,34 @@
+- name: Backup original yum repo files
+  shell: "mkdir /etc/yum.repos.d/bak && mv /etc/yum.repos.d/CentOS* /etc/yum.repos.d/bak/"
+
+- name: Copy Datalake Repo files
+  ansible.builtin.copy:
+    src: template/datalake.repo
+    dest: /etc/yum.repos.d/
+
+- name: Copy Datalake WANdisco Repo files
+  ansible.builtin.copy:
+    src: template/datalake.repo
+    dest: /etc/yum.repos.d/datalake-wandisco.repo
+
+- name: Upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: Backup original yum repo files again
+  shell: "mv -f /etc/yum.repos.d/CentOS* /etc/yum.repos.d/bak/"
+
+- name: Install wget
+  yum:
+    name: wget
+    state: latest
+- name: Group Install devel tools
+  shell: "yum -y groupinstall 'Development Tools'"
+- name: Install gcc; devel package
+  yum:
+    name:
+      - openssl-devel
+      - bzip2-devel
+      - libffi-devel
+    state: latest

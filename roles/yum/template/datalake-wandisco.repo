@@ -1,0 +1,5 @@
+[WANdisco-git]
+name=WANdisco Distribution of git
+baseurl=http://datalake-repo:8080/repos/opensource.wandisco.com/rhel/$releasever/git/$basearch
+enabled=1
+gpgcheck=0

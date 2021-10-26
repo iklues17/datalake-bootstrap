@@ -1,0 +1,38 @@
+[base]
+name=Datalake CentOS-$releasever - Base
+baseurl=http://datalake-repo:8080/repos/base
+enabled=1
+gpgcheck=0
+ 
+#released updates
+[updates]
+name=Datalake CentOS-$releasever - Updates
+baseurl=http://datalake-repo:8080/repos/updates
+enabled=1
+gpgcheck=0
+ 
+#additional packages that may be useful
+[extras]
+name=Datalake CentOS-$releasever - Extras
+baseurl=http://datalake-repo:8080/repos/extras
+enabled=1
+gpgcheck=0
+ 
+#additional packages that extend functionality of existing packages
+[centosplus]
+name=Datalake CentOS-$releasever - Plus
+baseurl=http://datalake-repo:8080/repos/centosplus
+enabled=1
+gpgcheck=0
+ 
+[epel]
+name=Datalake epel
+baseurl=http://datalake-repo:8080/repos/epel
+enabled=1
+gpgcheck=0
+ 
+[docker-ce]
+name=Datalake docker-ce
+baseurl=http://datalake-repo:8080/repos/docker-ce
+enabled=1
+gpgcheck=0

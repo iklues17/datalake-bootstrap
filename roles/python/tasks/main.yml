@@ -1,29 +1,19 @@
-- name: Yum update
-  yum:
-    name: "*"
-    state: latest
-- name: Install wget
-  yum:
-    name: wget
-    state: latest
-- name: Group Install devel tools
-  shell: "yum -y groupinstall 'Development Tools'"
-- name: Install gcc; devel package
-  yum:
-    name:
-      - openssl-devel
-      - bzip2-devel
-      - libffi-devel
-    state: latest
 - name: Download Python 3.8.9
   shell: |
-    wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
+    wget http://datalake-repo:8080/downloads/python/3.8.9/Python-3.8.9.tgz
     tar xvf Python-3.8.9.tgz
 - name: Install Python 3.8.9
   shell: |
     cd Python-3.8*
     ./configure --enable-optimizations
     make altinstall
+- name: Copy pip config file
+  ansible.builtin.copy:
+    src: template/pip.conf
+    dest: /root/.pip/pip.conf
+    owner: root
+    group: root
+    mode: '0777'
 - name: Create a Python3 Symbolic Link
   shell: sudo ln -s /usr/local/bin/python3.8 /bin/python3
   ignore_errors: yes

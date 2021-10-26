@@ -1,5 +1,7 @@
 - hosts: kube
   gather_facts: False
   roles:
+    - { role: "hosts" }
+    - { role: "yum" }
     - { role: "python" }
     - { role: "os-settings" }

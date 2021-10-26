@@ -1,0 +1,13 @@
+- name: Add Datalake Repo1 server to hostfile
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*harbor1.nexr.kr'
+    line: '10.224.140.133 datalake-repo harbor1.nexr.kr'
+    state: present
+
+- name: Add Datalake Repo2 server to hostfile
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*harbor2.nexr.kr'
+    line: '10.224.140.134 harbor2.nexr.kr'
+    state: present
