@@ -24,6 +24,11 @@
     cd Python-3.8*
     ./configure --enable-optimizations
     make altinstall
+- name: Create a Python3 Symbolic Link
+  shell: sudo ln -s /usr/local/bin/python3.8 /bin/python3
+  ignore_errors: yes
+- name: Upgrade Pip
+  shell: python3 -m pip install --upgrade pip
 - name: Check Python3 version
   shell: |
     python3 -V
